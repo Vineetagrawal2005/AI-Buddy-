@@ -104,6 +104,14 @@ No network call is made so no caching is needed.
 - If cache missing and API fails → fall back to on-device
   TTS so the app never crashes
 
+**Note on ElevenLabs:**
+ElevenLabs integration was attempted. The API call was
+implemented with caching and fallback logic. However,
+the free tier does not support library voices via API
+(requires paid plan). The integration code is included
+but disabled via `_useElevenLabs = false` flag — can be
+enabled with a paid API key and a VoiceLab-created voice.
+
 ---
 
 ## Audio Loading & Failure States
@@ -242,6 +250,9 @@ more reliable, easier to maintain.
 - `late String _story` causing initial load crash →
   changed to `String _story = ""` with empty string
   default and loading fallback text in UI
+- ElevenLabs free tier rejected library voices via API →
+  reverted to `flutter_tts` with ElevenLabs code kept
+  but disabled via flag
 
 ---
 
@@ -321,10 +332,10 @@ assets/
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.1.2
-  flutter_tts: ^4.0.2
-  confetti: ^0.7.0
-  google_fonts: ^6.2.1
+  provider: ^6.1.5+1
+  flutter_tts: ^4.2.5
+  confetti: ^0.8.0
+  google_fonts: ^8.1.0
 ```
 
 ---
@@ -338,3 +349,4 @@ flutter run
 
 Requires Flutter 3.x and an Android device or emulator
 with TTS engine installed (standard on all Android phones).
+Tested on Android (RMX3870) running debug build.
