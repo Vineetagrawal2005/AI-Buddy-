@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.pabelo"
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -18,7 +18,6 @@ android {
         applicationId = "com.example.pabelo"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
         minSdk = flutter.minSdkVersion
         targetSdk = 34
         versionName = flutter.versionName
