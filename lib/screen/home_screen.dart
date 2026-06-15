@@ -92,11 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [Icon(Icons.person_outline, color: AppColors.primaryPurple)],
       ),
       body: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         children: [
           SingleChildScrollView(
             child: (storyProvider.quizState == QuizState.hidden)
                 ? Column(
+                  
                     children: [
                       Buddy(),
                       SizedBox(height: AppDimens.sectionSpacing),
@@ -121,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
               storyProvider.quizState != QuizState.success)
             Positioned(
               bottom: 16,
-              right: 16,
-              child: SizedBox(height: 250, width: 250, child: Buddy()),
+              child: SizedBox(height: 200, width: 200, child: Buddy()),
             ),
 
           ConfettiOverlay(controller: confettiController),

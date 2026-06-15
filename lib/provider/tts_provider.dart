@@ -38,7 +38,8 @@ class TtsProvider extends ChangeNotifier {
 
     try {
       await _tts.setLanguage("en-US");
-      await _tts.setSpeechRate(0.45);
+      await _tts.setSpeechRate(0.45); // slightly faster = more energetic
+      await _tts.setPitch(1.9); // very high = cheerful/joyful
       await _tts.setVolume(1.0);
 
       var result = await _tts.speak(text);

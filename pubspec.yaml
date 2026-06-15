@@ -19,5 +19,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
-    - assets/image/
+    - assets/Story_Quiz.json
+    - assets/image/normal.png
+    - assets/image/happy.png
+    - assets/image/sad.png
+    - assets/image/reading.png
+    - assets/image/thinking.png
