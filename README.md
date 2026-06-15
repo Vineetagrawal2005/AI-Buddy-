@@ -1,3 +1,7 @@
+
+
+
+
 # Peblo AI Story Buddy & Quiz
 
 A kid-friendly Flutter app where an AI Buddy reads a story
@@ -8,29 +12,32 @@ Built for Peblo's Flutter Developer Intern Challenge.
 
 ## Screen Recording
 
-[Watch full demo video](YOUR_YOUTUBE_OR_DRIVE_LINK_HERE)
+https://github.com/user-attachments/assets/ddea72b4-038f-4c0c-8519-0c6d64dc9827
 
 ---
 
 ## Screenshots
 
 ### Story Screen
-![Story Screen](screenshots/story_screen.jpg)
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 38 PM" src="https://github.com/user-attachments/assets/e46ad135-e0d0-41be-bc8a-3729f8e55416" />
 
 ### Reading State (Buddy reading expression)
-![Reading](screenshots/reading_state.jpg)
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM" src="https://github.com/user-attachments/assets/2f0e201e-4240-432d-9ed4-5f66629d6962" />
 
 ### Quiz Screen (4 options)
-![Quiz](screenshots/quiz_screen.jpg)
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 40 PM (1)" src="https://github.com/user-attachments/assets/c2177584-ef52-4c0e-bbc2-98c8a08621e9" />
 
 ### Wrong Answer (red highlight + sad buddy)
-![Wrong Answer](screenshots/wrong_answer.jpg)
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM (2)" src="https://github.com/user-attachments/assets/e56be8e0-6736-43dd-af49-e52100458f9c" />
+
 
 ### Quiz Screen (5 options — data-driven proof)
-![5 Options](screenshots/five_options.jpg)
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM (1)" src="https://github.com/user-attachments/assets/88ae67b0-3287-46c0-bfe8-690306fff8ae" />
+
 
 ### Correct Answer + Confetti
-![Success](screenshots/success_confetti.jpg)
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 40 PM" src="https://github.com/user-attachments/assets/b6f5a73c-0994-4f13-b6e1-f732fa687e7b" />
+
 
 ---
 
@@ -187,7 +194,7 @@ Total frames recorded: **3,164 frames**
 Average FPS: **59 FPS** (DevTools confirmed)
 
 ### Before optimization — frame chart
-![Before Optimization](screenshots/devtools_before.png)
+<img width="1919" height="1079" alt="Screenshot 2026-06-15 194202" src="https://github.com/user-attachments/assets/b7a62056-e7c2-4b2b-845e-0dafdf9c42ca" />
 
 Early frames (1-15) show spikes up to 27ms — these
 occurred during initial app load and `ListView.builder`
@@ -211,7 +218,9 @@ layout calculations inside `Column`.
 - Added `const` constructors on static widgets
 
 ### After optimization — frame chart
-![After Optimization](screenshots/devtools_after.png)
+<img width="1918" height="1079" alt="Screenshot 2026-06-15 194216" src="https://github.com/user-attachments/assets/24804910-5478-4bc9-966c-0f208706effc" />
+
+<img width="1919" height="1079" alt="Screenshot 2026-06-15 194226" src="https://github.com/user-attachments/assets/3264d338-74ca-4302-9d89-808e20155ba3" />
 
 Post-optimization frames (54-130) show consistent
 sub-7ms frame times. No red jank frames detected
@@ -354,23 +363,7 @@ assets/
 │   └── thinking.png
 
 └── Story_Quiz.json
-screenshots/
 
-├── story_screen.jpg
-
-├── reading_state.jpg
-
-├── quiz_screen.jpg
-
-├── wrong_answer.jpg
-
-├── five_options.jpg
-
-├── success_confetti.jpg
-
-├── devtools_before.png
-
-└── devtools_after.png
 
 ---
 
