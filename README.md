@@ -6,6 +6,34 @@ Built for Peblo's Flutter Developer Intern Challenge.
 
 ---
 
+## Screen Recording
+
+[Watch full demo video](YOUR_YOUTUBE_OR_DRIVE_LINK_HERE)
+
+---
+
+## Screenshots
+
+### Story Screen
+![Story Screen](screenshots/story_screen.jpg)
+
+### Reading State (Buddy reading expression)
+![Reading](screenshots/reading_state.jpg)
+
+### Quiz Screen (4 options)
+![Quiz](screenshots/quiz_screen.jpg)
+
+### Wrong Answer (red highlight + sad buddy)
+![Wrong Answer](screenshots/wrong_answer.jpg)
+
+### Quiz Screen (5 options — data-driven proof)
+![5 Options](screenshots/five_options.jpg)
+
+### Correct Answer + Confetti
+![Success](screenshots/success_confetti.jpg)
+
+---
+
 ## Framework Choice
 
 **Flutter** with **Provider** state management.
@@ -60,6 +88,11 @@ The quiz is stored in `assets/Story_Quiz.json`:
       "question": "Where did Pip lose his gear?",
       "options": ["Whispering Woods", "The City", "His House"],
       "answer": "Whispering Woods"
+    },
+    {
+      "question": "What is Pip?",
+      "options": ["A robot", "A dragon", "A wizard", "A bird", "A car"],
+      "answer": "A robot"
     }
   ]
 }
@@ -83,8 +116,8 @@ In `quiz.dart`, options are rendered by mapping over
 ```
 
 **This handles 3, 4, or 5 options with zero code changes.**
-Swapping the entire JSON file requires no changes to any
-Dart file — the UI adapts automatically.
+The screenshot above shows a 5-option question rendering
+correctly — same code, different JSON, no changes needed.
 
 ---
 
@@ -104,13 +137,14 @@ No network call is made so no caching is needed.
 - If cache missing and API fails → fall back to on-device
   TTS so the app never crashes
 
-**Note on ElevenLabs:**
-ElevenLabs integration was attempted. The API call was
-implemented with caching and fallback logic. However,
-the free tier does not support library voices via API
-(requires paid plan). The integration code is included
-but disabled via `_useElevenLabs = false` flag — can be
-enabled with a paid API key and a VoiceLab-created voice.
+**Note on ElevenLabs attempt:**
+ElevenLabs integration was fully implemented with caching
+and fallback logic. However, the free tier returned HTTP
+402 for library voices via API:
+`"Free users cannot use library voices via the API"`
+The integration code is included but disabled via
+`_useElevenLabs = false` — can be enabled with a paid
+plan and a VoiceLab-created voice ID.
 
 ---
 
@@ -142,60 +176,69 @@ restarting the app.
 
 ## Performance Profiling
 
-**What I measured:**
-Ran the app in profile mode using Flutter DevTools
-Performance tab. Recorded frame times across the full flow:
-button tap → TTS loading → quiz reveal → wrong answer
-shake → correct answer confetti.
+### What I measured
+Ran the app in profile mode on a real Android device
+(RMX3870) using Flutter DevTools Performance tab.
+Recorded frame times across the full flow:
+button tap → TTS loading → quiz reveal →
+wrong answer shake → correct answer confetti.
 
-**Issues found before optimization:**
-- `ListView.builder` inside `Column` caused layout overflow
-  errors and unnecessary scroll context creation for a
-  fixed 3-5 item list
+Total frames recorded: **3,164 frames**
+Average FPS: **59 FPS** (DevTools confirmed)
+
+### Before optimization — frame chart
+![Before Optimization](screenshots/devtools_before.png)
+
+Early frames (1-15) show spikes up to 27ms — these
+occurred during initial app load and `ListView.builder`
+layout calculations inside `Column`.
+
+### Issues found
+- `ListView.builder` inside `Column` caused layout
+  overflow and unnecessary scroll context creation for
+  a fixed 3-5 item list
 - `ShakeWidget` initially wrapped the entire quiz column
   causing full-tree rebuilds on every animation frame
 
-**Changes made:**
-- Replaced `ListView.builder` with spread operator `.map()`
-  directly in `Column.children` — eliminates scroll
-  overhead entirely
+### Changes made
+- Replaced `ListView.builder` with spread operator
+  `.map()` directly in `Column.children` — eliminates
+  scroll overhead entirely
 - Scoped `ShakeWidget` to individual option buttons —
   only the tapped option's subtree rebuilds during shake
 - `confetti` configured with `numberOfParticles: 20`,
-  `emissionFrequency: 0.05`, `gravity: 0.3` — balanced
-  celebration effect vs CPU cost on low-end devices
-- Added `const` constructors on static widgets to prevent
-  unnecessary rebuilds
+  `emissionFrequency: 0.05`, `gravity: 0.3`
+- Added `const` constructors on static widgets
 
-**Result:** Smooth 60fps animations. No dropped frames
-detected in DevTools after optimization.
+### After optimization — frame chart
+![After Optimization](screenshots/devtools_after.png)
+
+Post-optimization frames (54-130) show consistent
+sub-7ms frame times. No red jank frames detected
+during quiz interaction, shake animation, or confetti.
+**Result: stable 59 FPS average on real Android device.**
 
 ---
 
 ## Optimizations for Mid-Range Android (~3GB RAM)
 
-- **On-device TTS** — no network, no buffering, works
-  offline, zero memory overhead from audio files
-- **Provider over BLoC** — no stream subscriptions,
-  minimal runtime overhead
-- **Spread operator over ListView** — no scroll context
-  for a fixed 3-5 item list
-- **Static PNG assets** — 5 small buddy expression images
-  instead of video files or heavy Lottie animations
-- **Single screen app** — no navigation stack memory
-  buildup
-- **Programmatic confetti** — `confetti` package generates
-  particles in code, not video/GIF playback
-- **`numberOfParticles: 20`** — enough celebration without
-  GPU overload on budget devices
+- **On-device TTS** — no network, no buffering, offline
+- **Provider over BLoC** — no stream subscriptions
+- **Spread operator over ListView** — no scroll overhead
+- **Static PNG assets** — 5 small buddy expression PNGs
+  instead of video or Lottie animations
+- **Single screen app** — no navigation stack buildup
+- **Programmatic confetti** — particles in code, not GIF
+- **`numberOfParticles: 20`** — celebration without GPU
+  overload on budget devices
+- **`const` constructors** — prevents unnecessary rebuilds
 
 ---
 
 ## AI Usage & Judgment
 
 **Files fully written by AI (~30% of codebase):**
-- `tts_provider.dart` — TTS engine setup, state machine
-  handlers, safety timeout logic
+- `tts_provider.dart` — TTS state machine, safety timeout
 - `shake_widget.dart` — sine-wave animation math
 - `design_constraint.dart` — design tokens
 - `confetti_overlay.dart` — package configuration
@@ -211,11 +254,9 @@ detected in DevTools after optimization.
 **Architecture decisions made independently:**
 - Single JSON containing both story and quiz data
 - Combining story + quiz logic in one `StoryProvider`
-- Buddy bottom-right corner positioning during quiz
-- 5 buddy expression states (normal/thinking/reading/
-  sad/happy) mapped to app states
-- AI-generated robot mascot via Gemini matching brand
-  purple color scheme
+- Buddy bottom-right corner during quiz
+- 5 buddy expression states mapped to app states
+- AI-generated robot mascot via Gemini matching brand colors
 
 **One AI suggestion I rejected:**
 AI suggested `Navigator.pushReplacement(HomeScreen())`
@@ -223,36 +264,26 @@ to restart the quiz after finishing all questions.
 I rejected this because it destroys and recreates all
 providers, causing unnecessary state reset and a visible
 screen flash. Instead I added `restart()` in
-`StoryProvider` which resets `currentIndex`, `quizState`,
-and `selectedOption` in place — providers stay alive,
-no navigation overhead, no flash.
+`StoryProvider` — providers stay alive, no navigation
+overhead, no flash.
 
 **One thing AI got wrong:**
 AI suggested `AnimatedPositioned` to animate Buddy moving
 from story screen to bottom-right corner during quiz.
-This required a fixed-size `Stack` and broke the
-`SingleChildScrollView` layout. I reverted to simple
-conditional positioning — `Buddy()` in `Column` for story
-screen, `Positioned` widget for quiz screen. Simpler,
-more reliable, easier to maintain.
+This required a fixed-size `Stack` and broke
+`SingleChildScrollView`. I reverted to simple conditional
+positioning — `Buddy()` in `Column` for story screen,
+`Positioned` for quiz screen.
 
 **What didn't work and how I resolved it:**
-- `context.watch` inside `onPressed` callbacks →
-  switched to `context.read`
-- `ListView.builder` inside `Column` →
-  switched to spread operator
-- `AnimatedSwitcher` not animating between states →
-  added `ValueKey('quiz')` and `ValueKey('success')`
-  to each child
-- `selectOption()` firing for all options simultaneously →
-  added early return guard when state is already
-  `wrong` or `success`
-- `late String _story` causing initial load crash →
-  changed to `String _story = ""` with empty string
-  default and loading fallback text in UI
-- ElevenLabs free tier rejected library voices via API →
-  reverted to `flutter_tts` with ElevenLabs code kept
-  but disabled via flag
+- `context.watch` inside `onPressed` → `context.read`
+- `ListView.builder` inside `Column` → spread operator
+- `AnimatedSwitcher` not animating → added `ValueKey`
+- `selectOption()` firing for all options → guard added
+- `late String _story` crash → `String _story = ""`
+- ElevenLabs free tier rejected library voices (HTTP 402)
+  → reverted to `flutter_tts`, kept ElevenLabs code
+  disabled via flag
 
 ---
 
@@ -261,68 +292,85 @@ lib/
 
 ├── core/
 
-│   └── design_constraint.dart     # colors, fonts, spacing
+│   └── design_constraint.dart
 
 ├── data/
 
 │   ├── model/
 
-│   │   ├── quiz_model.dart         # quiz data class
+│   │   ├── quiz_model.dart
 
-│   │   └── story_model.dart        # story + quiz wrapper
+│   │   └── story_model.dart
 
 │   └── repo/
 
-│       └── story_repo.dart         # JSON asset loading
+│       └── story_repo.dart
 
 ├── provider/
 
-│   ├── buddy_provider.dart         # mascot expression state
+│   ├── buddy_provider.dart
 
-│   ├── story_provider.dart         # quiz logic + story data
+│   ├── story_provider.dart
 
-│   └── tts_provider.dart           # audio state machine
+│   └── tts_provider.dart
 
 ├── screen/
 
-│   └── home_screen.dart            # single screen
+│   └── home_screen.dart
 
 ├── widget/
 
-│   ├── buddy.dart                  # animated mascot
+│   ├── buddy.dart
 
-│   ├── confetti_overlay.dart       # celebration animation
+│   ├── confetti_overlay.dart
 
-│   ├── error.dart                  # TTS error state
+│   ├── error.dart
 
-│   ├── loading.dart                # TTS loading state
+│   ├── loading.dart
 
-│   ├── option_button.dart          # quiz option row
+│   ├── option_button.dart
 
-│   ├── quiz.dart                   # data-driven quiz renderer
+│   ├── quiz.dart
 
-│   ├── shake_widget.dart           # wrong answer animation
+│   ├── shake_widget.dart
 
-│   ├── story.dart                  # story text card
+│   ├── story.dart
 
-│   └── success_card.dart           # correct answer state
+│   └── success_card.dart
 
 └── main.dart
 assets/
 
 ├── image/
 
-│   ├── normal.png                  # buddy idle
+│   ├── normal.png
 
-│   ├── happy.png                   # buddy correct answer
+│   ├── happy.png
 
-│   ├── sad.png                     # buddy wrong answer/error
+│   ├── sad.png
 
-│   ├── reading.png                 # buddy while TTS plays
+│   ├── reading.png
 
-│   └── thinking.png                # buddy loading/quiz
+│   └── thinking.png
 
-└── Story_Quiz.json                 # story + all quiz questions
+└── Story_Quiz.json
+screenshots/
+
+├── story_screen.jpg
+
+├── reading_state.jpg
+
+├── quiz_screen.jpg
+
+├── wrong_answer.jpg
+
+├── five_options.jpg
+
+├── success_confetti.jpg
+
+├── devtools_before.png
+
+└── devtools_after.png
 
 ---
 
@@ -349,4 +397,5 @@ flutter run
 
 Requires Flutter 3.x and an Android device or emulator
 with TTS engine installed (standard on all Android phones).
-Tested on Android (RMX3870) running debug build.
+Tested on RMX3870 Android device — 59 FPS average, arm64 64-bit, running profile build.
+3,164 frames recorded, no jank detected post-optimization.
