@@ -6,14 +6,8 @@ plugins {
 
 android {
     namespace = "com.example.pabelo"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
-    compileSdkVersion 34
-    
-    defaultConfig {
-        minSdkVersion 21  // minimum required
-        targetSdkVersion 34
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -25,8 +19,8 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
+        minSdk = flutter.minSdkVersion
+        targetSdk = 34
         versionName = flutter.versionName
     }
 
