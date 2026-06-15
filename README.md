@@ -338,5 +338,3 @@ flutter run
 
 Requires Flutter 3.x and an Android device or emulator
 with TTS engine installed (standard on all Android phones).
-#   A I - B u d d y -  
- 

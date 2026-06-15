@@ -1,0 +1,24 @@
+{ "story":"Once upon a time, a clever little robot named Pip lost his shiny blue gear in the Whispering Woods...",
+  "quiz":
+[
+{
+  "question": "What colour was Pip the Robot's lost gear?",
+  "options": ["Red", "Green", "Blue", "Yellow"],
+  "answer": "Blue"
+},
+{
+  "question": "Where did Pip lose his gear?",
+  "options": ["Whispering Woods", "The City", "His House"],
+  "answer": "Whispering Woods"
+},
+{
+  "question": "What is Pip?",
+  "options": ["A robot", "A dragon", "A wizard", "A bird", "A car"],
+  "answer": "A robot"
+},
+{
+  "question": "What kind of creature does Pip search the woods for help from?",
+  "options": ["An owl", "A fox", "A squirrel", "A talking tree", "A firefly"],
+  "answer": "A talking tree"
+}
+]}
