@@ -25,14 +25,15 @@ https://github.com/user-attachments/assets/ddea72b4-038f-4c0c-8519-0c6d64dc9827
 <img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM" src="https://github.com/user-attachments/assets/2f0e201e-4240-432d-9ed4-5f66629d6962" />
 
 ### Quiz Screen (4 options)
-<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 40 PM (1)" src="https://github.com/user-attachments/assets/c2177584-ef52-4c0e-bbc2-98c8a08621e9" />
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM (1)" src="https://github.com/user-attachments/assets/88ae67b0-3287-46c0-bfe8-690306fff8ae" />
 
 ### Wrong Answer (red highlight + sad buddy)
 <img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM (2)" src="https://github.com/user-attachments/assets/e56be8e0-6736-43dd-af49-e52100458f9c" />
 
 
 ### Quiz Screen (5 options — data-driven proof)
-<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 39 PM (1)" src="https://github.com/user-attachments/assets/88ae67b0-3287-46c0-bfe8-690306fff8ae" />
+
+<img width="720" height="1600" alt="WhatsApp Image 2026-06-15 at 7 35 40 PM (1)" src="https://github.com/user-attachments/assets/c2177584-ef52-4c0e-bbc2-98c8a08621e9" />
 
 
 ### Correct Answer + Confetti
